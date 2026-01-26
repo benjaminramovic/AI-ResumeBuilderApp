@@ -233,5 +233,6 @@ export const dummyResumeData = [
         ],
         updatedAt: "2025-09-25T15:26:49.652Z",
         createdAt: "2025-09-25T15:26:49.652Z"
-    }
+    },
+    
 ]
