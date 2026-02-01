@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { dummyResumeData } from '../assets/assets'
 import PersonalInfoForm from '../components/PersonalInfoForm'
+import ResumePreview from '../components/ResumePreview'
 
 const ResumeBuilder = () => {
   const {resumeId} = useParams()
@@ -97,7 +98,14 @@ const ResumeBuilder = () => {
           </div>
 
           {/* Right panel - Preview */}
-          <div></div>
+          <div className="lg:col-span-7 max-lg:mt-6">
+            {/* buttons */}
+            <div>
+             <button>buttons</button>
+            </div>
+            {/* resume preview */}
+            <ResumePreview data={resumeData} template={resumeData.template} accentColor={resumeData.accent_color} />
+          </div>
         </div>
       </div>
     </div>
