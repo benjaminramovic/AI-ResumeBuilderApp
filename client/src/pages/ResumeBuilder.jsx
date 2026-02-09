@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom'
 import { dummyResumeData } from '../assets/assets'
 import ColorPicker from '../components/ColorPicker'
 import PersonalInfoForm from '../components/PersonalInfoForm'
+import ProfessionalSummaryForm from '../components/ProfessionalSummaryForm'
 import ResumePreview from '../components/ResumePreview'
 import TemplateSelector from '../components/TemplateSelector'
 
@@ -15,6 +16,7 @@ const ResumeBuilder = () => {
     id:'',
     title:'',
     personal_info: [],
+    professional_summary:'',
     experience:[],
     education: [],
     project: [],
@@ -95,6 +97,9 @@ const ResumeBuilder = () => {
                     {activeSection.id === "personal" && (
                       <PersonalInfoForm data={resumeData.personal_info} onChange={(data) => setResumeData(prev=>({...prev, personal_info:data}))} removeBackground={removeBackground}
                       setRemoveBackground={setRemoveBackground}/>
+                    )}
+                    {activeSection.id === "summary" && (
+                      <ProfessionalSummaryForm data={resumeData.professional_summary} onChange={(data)=>setResumeData(prev => ({...prev, professional_summary: data}))} setResumeData={setResumeData}/>
                     )}
               </div>
 
