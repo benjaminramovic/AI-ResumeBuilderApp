@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { dummyResumeData } from '../assets/assets'
 import ColorPicker from '../components/ColorPicker'
+import ExperienceForm from '../components/ExperienceForm'
 import PersonalInfoForm from '../components/PersonalInfoForm'
 import ProfessionalSummaryForm from '../components/ProfessionalSummaryForm'
 import ResumePreview from '../components/ResumePreview'
@@ -100,6 +101,9 @@ const ResumeBuilder = () => {
                     )}
                     {activeSection.id === "summary" && (
                       <ProfessionalSummaryForm data={resumeData.professional_summary} onChange={(data)=>setResumeData(prev => ({...prev, professional_summary: data}))} setResumeData={setResumeData}/>
+                    )}
+                    {activeSection.id === "experience" && (
+                      <ExperienceForm data={resumeData.experience} onChange={(data)=>setResumeData(prev => ({...prev, data}))}/>
                     )}
               </div>
 
