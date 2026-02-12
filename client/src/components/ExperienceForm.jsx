@@ -32,7 +32,7 @@ const ExperienceForm = ({
                 <h3 className='flex items-center gap-2 text-lg font-semibold text-gray-900'>Professional Experience</h3>
                 <p className='text-sm text-gray-500'>Add your job experience</p>
             </div>
-            <button onClick={addExperience} className='flex items-center gap-2 bg-purple-100 text-purple-700 px-3 py-1 rounded hover:Bg-purple-200 transition-colors disabled:opacity-50'>
+            <button onClick={addExperience} className='flex items-center gap-2 bg-green-100 text-green-700 px-3 py-1 rounded hover:bg-green-200 transition-colors disabled:opacity-50'>
                 <Plus className='size-4'/>
                 <span>Add Experience</span>
             </button>

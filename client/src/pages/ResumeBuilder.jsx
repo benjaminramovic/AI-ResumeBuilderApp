@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { dummyResumeData } from '../assets/assets'
 import ColorPicker from '../components/ColorPicker'
+import EducationForm from '../components/EducationForm'
 import ExperienceForm from '../components/ExperienceForm'
 import PersonalInfoForm from '../components/PersonalInfoForm'
 import ProfessionalSummaryForm from '../components/ProfessionalSummaryForm'
@@ -65,7 +66,7 @@ const ResumeBuilder = () => {
       <div className='max-w-7xl mx-auto px-4 pb-8'>
         <div className="grid lg:grid-cols-12 gap-8">
           {/* Left panel -  Form */}
-          <div className='relative lg:col-span-5 rounded-lg overflow-hidden'>
+          <div className='relative lg:col-span-5 rounded-lg'>
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 pt-1">
               {/* Progress bar using activeSectionIndex */}
               <hr className='absolute left-0 right-0 top-0 border-2 border-gray-200'/>
@@ -104,6 +105,9 @@ const ResumeBuilder = () => {
                     )}
                     {activeSection.id === "experience" && (
                       <ExperienceForm data={resumeData.experience} onChange={(data)=>setResumeData(prev => ({...prev, experience:data}))}/>
+                    )}
+                    {activeSection.id === "education" && (
+                      <EducationForm data={resumeData.education} onChange={(data)=>setResumeData(prev => ({...prev, education:data}))}/>
                     )}
               </div>
 
