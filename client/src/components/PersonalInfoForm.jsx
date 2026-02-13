@@ -51,7 +51,7 @@ const PersonalInfoForm = ({
             fields.map((field) => {
                 const Icon = field.icon
                 return (
-                    <div key={field.key} className='space-y-1 mt-2' mt-5>
+                    <div key={field.key} className='space-y-1 mt-2'>
                         <label className='flex items-center gap-2 text-sm font-medium text-gray-600'>
                             <Icon className='size-4'/>
                             {field.label}
