@@ -56,14 +56,15 @@ const ResumeBuilder = () => {
 
    const activeSection = sections[activeSectionIndex]
 
-   const changeVisibility = async () => {
+   const changeVisibility = () => {
     setResumeData({...resumeData, public: !resumeData.public})
    }
-   const handleShare = () => {
+   const handleShare = async () => {
     const frontendUrl = window.location.href.split('/app/')[0]
     const resumeUrl = frontendUrl + '/view/' + resumeId
     if(navigator.share) {
-      navigator.share({url: resumeUrl, text: "My resume"})
+       //alert(resumeUrl)
+       navigator.share({url: resumeUrl, text: "My resume"})
     }else {
       alert("Share not supported on this browser.")
     }
