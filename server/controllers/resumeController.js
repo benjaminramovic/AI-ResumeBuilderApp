@@ -1,5 +1,5 @@
-import imageKit from "../configs/imageKit";
-import Resume from "../models/Resume";
+import imageKit from "../configs/imageKit.js";
+import Resume from "../models/Resume.js";
 import fs from 'fs'
 
 export const createResume = async (req, res) => {
@@ -88,4 +88,4 @@ export const updateResume = async (req, res) => {
     }
 }
 
-const {name, email, phone, summary, experience, education, skills} = req.body
+//const {name, email, phone, summary, experience, education, skills} = req.body

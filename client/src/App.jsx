@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
 import Home from './pages/Home'
@@ -6,8 +6,40 @@ import Layout from './pages/Layout'
 import Login from './pages/Login'
 import Preview from './pages/Preview'
 import ResumeBuilder from './pages/ResumeBuilder'
+import { useDispatch } from 'react-redux'
+import api from './configs/api'
+import { login, setLoading } from './app/features/authSlice'
 
 const App = () => {
+  const dispatch = useDispatch()
+
+ 
+
+  const getUserData = async () => {
+    const token = localStorage.getItem('token')
+    try {
+      if(token) {
+        const {data} = await api.get('/api/users/data', {headers: {
+          Authorization: token
+        }})
+        if(data.user) {
+          dispatch(login({user: data.user, token}))
+        }
+        dispatch(setLoading(false))
+
+      } else {
+        dispatch(setLoading(false))
+        
+      }
+    }
+    catch(error){
+      console.log(error.message)
+    }
+  }
+
+   useEffect(() => {
+    getUserData()
+  }, [])
   return (
     <>
       <Routes>
