@@ -101,6 +101,7 @@ export const uploadResume = async (req, res) => {
         }
 
         ` ;
+        
         const response = await ai.chat.completions.create({
             model: process.env.OPENAI_MODEL,
             messages: [
@@ -112,10 +113,13 @@ export const uploadResume = async (req, res) => {
                     content: userPrompt,
                 },
             ],
-            response_format: {type: "json_object"}
+           // response_format: {type: "json_object"}
         });
         const extractedData = response.choices[0].message.content;
-        const parsedData = JSON.parse(extractedData)
+        const match = extractedData.match(/\{[\s\S]*\}/);
+        if (!match) throw new Error("AI response nije validan JSON");
+
+        const parsedData = JSON.parse(match[0])
 
         const newResume = await Resume.create({userId, title, ...parsedData })
 

@@ -9,6 +9,7 @@ import ResumeBuilder from './pages/ResumeBuilder'
 import { useDispatch } from 'react-redux'
 import api from './configs/api'
 import { login, setLoading } from './app/features/authSlice'
+import {Toaster} from 'react-hot-toast'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -42,6 +43,8 @@ const App = () => {
   }, [])
   return (
     <>
+
+      <Toaster />
       <Routes>
         <Route path='/' element={<Home/>} />
 

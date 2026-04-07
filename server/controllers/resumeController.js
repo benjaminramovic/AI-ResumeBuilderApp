@@ -62,7 +62,7 @@ export const updateResume = async (req, res) => {
         const userId = req.userId
         const {resumeId, resumeData, removeBackground} = req.body
         const image = req.file
-        const newResumeData = JSON.parse(resumeData)
+        const newResumeData = JSON.parse(JSON.stringify(resumeData))
 
         if(image) {
             const imageBufferData = fs.createReadStream(image.path)
