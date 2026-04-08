@@ -1,5 +1,9 @@
-import { Briefcase, Plus, Sparkles, Trash2 } from 'lucide-react'
-import React from 'react'
+import { Briefcase, Loader2, Plus, Sparkles, Trash2 } from 'lucide-react'
+import React, { useState } from 'react'
+import toast from 'react-hot-toast'
+import { useSelector} from 'react-redux'
+import api from '../configs/api'
+
 
 const ExperienceForm = ({
     data, 
@@ -16,6 +20,9 @@ const ExperienceForm = ({
         }
         onChange([...data, newExperience])
     }
+    const {token} = useSelector((state)=>state.auth)
+    const [generatingIndex, setGeneratingIndex] = useState(-1)
+
     const removeExperience = (index) => {
         const updated = data.filter((_,i) => i !== index)
         onChange(updated)
@@ -24,6 +31,24 @@ const ExperienceForm = ({
         const updated = [...data]
         updated[index] = {...updated[index], [field]:value}
         onChange(updated)
+    }
+    const enhanceJobDescription = async (index) => {
+         setGeneratingIndex(index)
+         const experience = data[index]
+         const prompt = `enhance this job description "${experience.description}" for a position as ${experience.position} at ${experience.company}`
+
+        try{
+            const {data} = await api.post("/api/ai/enhance-job-desc", {userContent: prompt}, {headers: {
+                Authorization: token
+            }})
+            updateExperience(index, "description", data.enhancedContent)
+        }
+        catch(error){
+            toast.error(error.message)
+        }
+        finally {
+            setGeneratingIndex(-1)
+        }
     }
   return (
     <div className='space-y-6'>
@@ -57,10 +82,11 @@ const ExperienceForm = ({
                             {/* Input fields...  */}
                             <input type="text" className='py-2 px-3 text-sm rounded-lg' value={experience.company || ''} onChange={(e)=>updateExperience(index, "company",e.target.value)} placeholder='Company name'/>
                             <input type="text" className='py-2 px-3 text-sm rounded-lg' value={experience.position || ''} onChange={(e)=>updateExperience(index, "position",e.target.value)} placeholder='Job title'/>
-                            <input type="month" className='py-2 px-3 text-sm rounded-lg' value={experience.start_date || ''} onChange={(e)=>updateExperience(index, "start_date",e.target.value)} />
-                            <input type="month"
+                            <input className='py-2 px-3 text-sm rounded-lg' value={experience.start_date || ''} onChange={(e)=>updateExperience(index, "start_date",e.target.value)} type="month"/>
+                            
+                            <input 
                             disabled={experience.isCurrent}
-                            className='py-2 px-3 text-sm rounded-lg disabled:bg-gray-100' value={experience.end_date || ''} onChange={(e)=>updateExperience(index, "end_date",e.target.value)} />
+                            className='py-2 px-3 text-sm rounded-lg disabled:bg-gray-100' value={experience.end_date || ''} onChange={(e)=>updateExperience(index, "end_date",e.target.value)} type="month"/>
                         </div>
                         <label className='flex items-center gap-2'>
                             <input type="checkbox" className='rounded border-gray-300 text-blue-600 focus:ring-blue-500'
@@ -72,9 +98,11 @@ const ExperienceForm = ({
                         <div className='space-y-2'>
                             <div className="flex items-center justify-between">
                                 <label className='text-sm font-medium text-gray-700'>Job Description</label>
-                                <button className='flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
-                                    <Sparkles className='w-3 h-3'/>
-                                    <span>Enhance with AI</span>
+                                <button onClick={()=>enhanceJobDescription(index)} disabled={generatingIndex==index || !experience.position || !experience.company} className='flex items-center gap-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded hover:bg-purple-200 transition-colors disabled:opacity-50'>
+                                    {generatingIndex==index ? (<Loader2 className='size-3 animate-spin'/>) : (
+                                        <Sparkles className='size-3'/>
+                                    )}
+                                    <span>{generatingIndex ==index ? 'Enhancing...' : 'Enhance with AI'}</span>
                                 </button>
                             </div>
                             <textarea

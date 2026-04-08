@@ -62,7 +62,13 @@ export const updateResume = async (req, res) => {
         const userId = req.userId
         const {resumeId, resumeData, removeBackground} = req.body
         const image = req.file
-        const newResumeData = JSON.parse(JSON.stringify(resumeData))
+        let newResumeData;
+
+        if(typeof resumeData === "string"){
+            newResumeData = await JSON.parse(resumeData)
+        } else {
+            newResumeData = structuredClone(resumeData)
+        }
 
         if(image) {
             const imageBufferData = fs.createReadStream(image.path)
@@ -79,7 +85,7 @@ export const updateResume = async (req, res) => {
         }
 
         const updatedResume = await Resume.findByIdAndUpdate({userId, _id: resumeId}, newResumeData, {new: true})
-        return res.status(200).json({message: "Saved successfully!", updatedResume})
+        return res.status(200).json({message: "Saved successfully!", resume: updatedResume})
 
        
     }

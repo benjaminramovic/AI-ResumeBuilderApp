@@ -1,7 +1,10 @@
 import ai from "../configs/ai.js"
 import Resume from "../models/Resume.js";
 
+let requestCount = 0;
 export const enhanceProfessionalSummary = async (req, res) => {
+    requestCount++;
+    console.log(`API call #${requestCount} - sending request to OpenAI`);
     try {
         const {userContent} = req.body
         if(!userContent){
@@ -21,8 +24,11 @@ export const enhanceProfessionalSummary = async (req, res) => {
         });
 
         const enhancedContent = response.choices[0].message.content;
+        console.log("MODEL:", process.env.OPENAI_MODEL)
+
         return res.status(200).json({enhancedContent});
     } catch (error) {
+        console.error("Error enhancing professional summary:", error);
         return res.status(500).json({message: error.message})
     }
 }
